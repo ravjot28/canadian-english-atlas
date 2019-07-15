@@ -4,6 +4,8 @@ services:
 
 before_install:
   - docker build -t ravjot28/client -f ./client/Dockerfile.dev ./client
+  - docker build -t ravjot28/api -f ./api/Dockerfile.dev ./api
 
 script:
   - docker run -e CI=true ravjot28/client npm test -- --coverage
+  - docker run ravjot28/api mvn test
