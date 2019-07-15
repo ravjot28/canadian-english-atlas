@@ -7,3 +7,5 @@ before_install:
 
 script:
   - docker run ravjot28/client npm test -- --coverage
+on:
+  branch: master
