@@ -1,10 +1,10 @@
 import React from "react";
 import "./AudioSubmissionForm.css";
-import AudioSubmissionConfirmation from "./AudioSubmissionConfirmation";
-import Disclaimer from "./Disclaimer";
-import WrappedAddAudioForm from "./AddAudioForm";
-import WordsRecording from "./WordsRecording";
-import FinalSubmissionDisclaimer from "./FinalSubmissionDisclaimer";
+import AudioSubmissionConfirmation from "./audioSubmissonConfirmation/AudioSubmissionConfirmation";
+import Disclaimer from "./disclaimer/Disclaimer";
+import WrappedAddAudioForm from "./collectUserInfo/AddAudioForm";
+import WordsRecording from "./recordWords/WordsRecording";
+import FinalSubmissionDisclaimer from "./finalSubmission/FinalSubmissionDisclaimer";
 import { Steps, Button, message } from "antd";
 
 const { Step } = Steps;
