@@ -2,6 +2,7 @@ package com.strathy.api.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.strathy.api.model.User;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -23,9 +24,8 @@ public class UserPrincipal implements UserDetails {
    * @return the user principal
    */
   public static UserPrincipal create(User user) {
-    List<GrantedAuthority> authorities =
-        user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name()))
-            .collect(Collectors.toList());
+    List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    authorities.add(new SimpleGrantedAuthority(user.getRole()));
 
     return new UserPrincipal(user.getId(), user.getName(), user.getUsername(), user.getEmail(),
         user.getPassword(), authorities);
@@ -36,7 +36,7 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String email;
 
-  private Long id;
+  private String id;
 
   private String name;
 
@@ -55,7 +55,7 @@ public class UserPrincipal implements UserDetails {
    * @param password the password
    * @param authorities the authorities
    */
-  public UserPrincipal(Long id, String name, String username, String email, String password,
+  public UserPrincipal(String id, String name, String username, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.name = name;
@@ -107,7 +107,7 @@ public class UserPrincipal implements UserDetails {
    *
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 

@@ -1,59 +1,33 @@
 package com.strathy.api.model;
 
-import com.strathy.api.model.audit.DateAudit;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import org.hibernate.annotations.NaturalId;
+import com.strathy.api.firebase.document.FirebaseDocument;
+import com.strathy.api.firebase.document.FirebaseId;
 
 
 /**
  * The Class User.
  */
-@Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"}),
-    @UniqueConstraint(columnNames = {"email"})})
-public class User extends DateAudit {
+@FirebaseDocument(Constants.BASE_PATH + "/users")
+public class User {
   private static final long serialVersionUID = 1L;
 
-  @NaturalId
-  @NotBlank
-  @Size(max = 40)
-  @Email
   private String email;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @FirebaseId
+  private String id;
 
-  @NotBlank
-  @Size(max = 40)
   private String name;
 
-  @NotBlank
-  @Size(max = 100)
   private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles = new HashSet<>();
+  private String role;
 
-  @NotBlank
-  @Size(max = 15)
   private String username;
+
+  private String createdAt;
+
+  private String updatedAt;
+
 
   /**
    * Instantiates a new user.
@@ -91,7 +65,7 @@ public class User extends DateAudit {
    *
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -118,8 +92,8 @@ public class User extends DateAudit {
    *
    * @return the roles
    */
-  public Set<Role> getRoles() {
-    return roles;
+  public String getRole() {
+    return role;
   }
 
   /**
@@ -145,7 +119,7 @@ public class User extends DateAudit {
    *
    * @param id the new id
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -172,8 +146,8 @@ public class User extends DateAudit {
    *
    * @param roles the new roles
    */
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
+  public void setRole(String role) {
+    this.role = role;
   }
 
   /**
@@ -183,5 +157,41 @@ public class User extends DateAudit {
    */
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  /**
+   * Gets the created at.
+   *
+   * @return the created at
+   */
+  public String getCreatedAt() {
+    return createdAt;
+  }
+
+  /**
+   * Gets the updated at.
+   *
+   * @return the updated at
+   */
+  public String getUpdatedAt() {
+    return updatedAt;
+  }
+
+  /**
+   * Sets the created at.
+   *
+   * @param createdAt the new created at
+   */
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  /**
+   * Sets the updated at.
+   *
+   * @param updatedAt the new updated at
+   */
+  public void setUpdatedAt(String updatedAt) {
+    this.updatedAt = updatedAt;
   }
 }

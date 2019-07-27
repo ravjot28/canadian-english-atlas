@@ -5,7 +5,7 @@ package com.strathy.api.payload;
  * The Class UserSummary.
  */
 public class UserSummary {
-  private Long id;
+  private String id;
   private String name;
   private String username;
 
@@ -16,7 +16,7 @@ public class UserSummary {
    * @param username the username
    * @param name the name
    */
-  public UserSummary(Long id, String username, String name) {
+  public UserSummary(String id, String username, String name) {
     this.id = id;
     this.username = username;
     this.name = name;
@@ -27,7 +27,7 @@ public class UserSummary {
    *
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -54,7 +54,7 @@ public class UserSummary {
    *
    * @param id the new id
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

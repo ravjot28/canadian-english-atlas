@@ -36,15 +36,13 @@ class WordsRecording extends Component {
     data: null
   };
   handlePlay = word => {
-    console.log(word);
-    console.log(localStorage.getItem(word));
     this.setState({ data: localStorage.getItem(word) });
   };
   handleSongFinishedPlaying = () => {
     console.log("Done playing");
   };
 
-  render() {
+  componentDidMount() {
     Modal.info({
       title: "Ready to record?",
       content: (
@@ -59,6 +57,9 @@ class WordsRecording extends Component {
       ),
       onOk() {}
     });
+  }
+
+  render() {
     let index = 0;
     return (
       <div style={{ background: "#ECECEC", padding: "30px" }}>

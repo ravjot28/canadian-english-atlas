@@ -1,29 +1,16 @@
 package com.strathy.api.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.hibernate.annotations.NaturalId;
-
+import com.strathy.api.firebase.document.FirebaseDocument;
+import com.strathy.api.firebase.document.FirebaseId;
 
 /**
  * The Class Role.
  */
-@Entity
-@Table(name = "roles")
+@FirebaseDocument(Constants.BASE_PATH + "/roles")
 public class Role {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @FirebaseId
+  private String id;
 
-  @Enumerated(EnumType.STRING)
-  @NaturalId
-  @Column(length = 60)
   private RoleName name;
 
   /**
@@ -47,7 +34,7 @@ public class Role {
    *
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -65,7 +52,7 @@ public class Role {
    *
    * @param id the new id
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

@@ -7,8 +7,8 @@ import java.time.Instant;
  * The Class UserProfile.
  */
 public class UserProfile {
-  private Long id;
-  private Instant joinedAt;
+  private String id;
+  private String joinedAt;
   private String name;
   private String username;
 
@@ -20,7 +20,7 @@ public class UserProfile {
    * @param name the name
    * @param joinedAt the joined at
    */
-  public UserProfile(Long id, String username, String name, Instant joinedAt) {
+  public UserProfile(String id, String username, String name, String joinedAt) {
     this.id = id;
     this.username = username;
     this.name = name;
@@ -32,7 +32,7 @@ public class UserProfile {
    *
    * @return the id
    */
-  public Long getId() {
+  public String getId() {
     return id;
   }
 
@@ -41,7 +41,7 @@ public class UserProfile {
    *
    * @return the joined at
    */
-  public Instant getJoinedAt() {
+  public String getJoinedAt() {
     return joinedAt;
   }
 
@@ -68,7 +68,7 @@ public class UserProfile {
    *
    * @param id the new id
    */
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -77,7 +77,7 @@ public class UserProfile {
    *
    * @param joinedAt the new joined at
    */
-  public void setJoinedAt(Instant joinedAt) {
+  public void setJoinedAt(String joinedAt) {
     this.joinedAt = joinedAt;
   }
 

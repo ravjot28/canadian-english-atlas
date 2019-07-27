@@ -1,13 +1,16 @@
 package com.strathy.api.security;
 
+import com.strathy.api.firebase.repository.Filter.FilterBuilder;
 import com.strathy.api.model.User;
 import com.strathy.api.repository.UserRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -26,12 +29,17 @@ public class CustomUserDetailsService implements UserDetailsService {
    * @return the user details
    */
   // This method is used by JWTAuthenticationFilter
-  @Transactional
-  public UserDetails loadUserById(Long id) {
-    User user = userRepository.findById(id)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id));
+  public UserDetails loadUserById(String id) {
 
-    return UserPrincipal.create(user);
+    Map<String, String> uriVariables = new HashMap<String, String>();
+    uriVariables.put("id", id);
+
+    List<User> user = userRepository.find(FilterBuilder.builder().build(), uriVariables);
+
+    if (user == null || user.size() == 0)
+      throw new UsernameNotFoundException("User not found with id : " + id);
+
+    return UserPrincipal.create(user.get(0));
   }
 
   /**
@@ -42,13 +50,20 @@ public class CustomUserDetailsService implements UserDetailsService {
    * @throws UsernameNotFoundException the username not found exception
    */
   @Override
-  @Transactional
   public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-    // Let people login with either username or email
-    User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-        .orElseThrow(() -> new UsernameNotFoundException(
-            "User not found with username or email : " + usernameOrEmail));
 
-    return UserPrincipal.create(user);
+
+    Map<String, String> uriVariables = new HashMap<String, String>();
+    uriVariables.put("username", usernameOrEmail);
+
+    List<User> user = userRepository.find(FilterBuilder.builder().build(), uriVariables);
+
+    if (user == null || user.size() == 0)
+      throw new UsernameNotFoundException(
+          "User not found with username or email : " + usernameOrEmail);
+
+
+
+    return UserPrincipal.create(user.get(0));
   }
 }

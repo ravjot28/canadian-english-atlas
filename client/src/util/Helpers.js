@@ -1,6 +1,5 @@
 export function formatDate(dateString) {
-  const date = new Date(dateString);
-
+  const date = new Date(+dateString);
   const monthNames = [
     "January",
     "February",
@@ -24,7 +23,6 @@ export function formatDate(dateString) {
 
 export function formatDateTime(dateTimeString) {
   const date = new Date(dateTimeString);
-
   const monthNames = [
     "Jan",
     "Feb",

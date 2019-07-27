@@ -1,6 +1,7 @@
 package com.strathy.api.controller;
 
 import com.strathy.api.exception.AppException;
+import com.strathy.api.firebase.repository.Filter.FilterBuilder;
 import com.strathy.api.model.Role;
 import com.strathy.api.model.RoleName;
 import com.strathy.api.model.User;
@@ -12,7 +13,10 @@ import com.strathy.api.repository.RoleRepository;
 import com.strathy.api.repository.UserRepository;
 import com.strathy.api.security.JwtTokenProvider;
 import java.net.URI;
-import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,12 +82,39 @@ public class AuthController {
    */
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-    if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+
+    User userToFind = new User();
+    userToFind.setUsername(signUpRequest.getUsername());
+
+
+    Map<String, String> uriVariables = new HashMap<String, String>();
+    uriVariables.put("username", signUpRequest.getUsername());
+
+
+    Boolean isPresent = (userRepository.find(FilterBuilder.builder().build(), uriVariables) != null
+        && userRepository.find(FilterBuilder.builder().build(), uriVariables).size() > 0);
+
+
+
+    if (isPresent) {
       return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
           HttpStatus.BAD_REQUEST);
     }
 
-    if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+    userToFind = new User();
+    userToFind.setEmail(signUpRequest.getEmail());
+
+
+    uriVariables = new HashMap<String, String>();
+    uriVariables.put("email", signUpRequest.getEmail());
+
+
+
+    isPresent = (userRepository.find(FilterBuilder.builder().build(), uriVariables) != null
+        && userRepository.find(FilterBuilder.builder().build(), uriVariables).size() > 0);
+
+
+    if (isPresent) {
       return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
           HttpStatus.BAD_REQUEST);
     }
@@ -94,12 +125,22 @@ public class AuthController {
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-        .orElseThrow(() -> new AppException("User Role not set."));
+    user.setCreatedAt(""+new Date().getTime());
 
-    user.setRoles(Collections.singleton(userRole));
 
-    User result = userRepository.save(user);
+    uriVariables = new HashMap<String, String>();
+    uriVariables.put("name", RoleName.ROLE_USER.name());
+
+    List<Role> userRole = roleRepository.find(FilterBuilder.builder().build(), uriVariables);
+
+
+    if (userRole == null || userRole.size() == 0) {
+      throw new AppException("User Role not set.");
+    }
+
+    user.setRole(userRole.get(0).getName().name());
+
+    User result = userRepository.push(user);
 
     URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path("/api/users/{username}").buildAndExpand(result.getUsername()).toUri();
