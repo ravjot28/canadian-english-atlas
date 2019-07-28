@@ -2,34 +2,8 @@ import React, { Component } from "react";
 import Recorder from "./Recorder";
 import { Modal, Row, Col } from "antd";
 import Sound from "react-sound";
+import { words } from "../../../common/constants";
 
-const words = [
-  "bag",
-  "cot",
-  "gang",
-  "past",
-  "spa",
-  "band",
-  "deck",
-  "house",
-  "pasta",
-  "test",
-  "boat",
-  "duck",
-  "how",
-  "pool",
-  "tie",
-  "boot",
-  "face",
-  "kiss",
-  "seat",
-  "tight",
-  "caught",
-  "far",
-  "pack",
-  "sharp",
-  "too"
-];
 class WordsRecording extends Component {
   state = {
     playSound: false,

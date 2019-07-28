@@ -1,9 +1,9 @@
 import React from "react";
-
+import { formMetaData } from "../../../common/constants";
 import { Form, Select, Radio, Input } from "antd";
 const { Option } = Select;
 
-class AddAudioForm extends React.Component {
+class UserInfoForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: []
@@ -21,6 +21,15 @@ class AddAudioForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    let i = 0;
+    const birthYearArr = [];
+    for (
+      i = formMetaData.birthYear.minRangeValue;
+      i < formMetaData.birthYear.maxRangeValue;
+      i++
+    ) {
+      birthYearArr.push(<Option value={i}>{i}</Option>);
+    }
 
     return (
       <div>
@@ -35,13 +44,17 @@ class AddAudioForm extends React.Component {
             ]
           })(
             <Select
-              defaultValue="before1915"
+              defaultValue={formMetaData.birthYear.minValue}
               style={{ width: 120 }}
               onChange={this.handleChange}
             >
-              <Option value="before1915">before 1915</Option>
-              <Option value="1916">1916</Option>
-              <Option value="1917">1917</Option>
+              <Option value={formMetaData.birthYear.minValue}>
+                {formMetaData.birthYear.minName}
+              </Option>
+              {birthYearArr}
+              <Option value={formMetaData.birthYear.maxValue}>
+                {formMetaData.birthYear.maxName}
+              </Option>
             </Select>
           )}
         </Form.Item>
@@ -60,10 +73,18 @@ class AddAudioForm extends React.Component {
               style={{ width: 120 }}
               onChange={this.handleChange}
             >
-              <Option value="female">Female</Option>
-              <Option value="male">Male</Option>
-              <Option value="nonBinary">Non-binary/third gender</Option>
-              <Option value="other">Other</Option>
+              <Option value={formMetaData.gender.femaleValue}>
+                {formMetaData.gender.femaleName}
+              </Option>
+              <Option value={formMetaData.gender.maleValue}>
+                {formMetaData.gender.maleName}
+              </Option>
+              <Option value={formMetaData.gender.nonBinaryValue}>
+                {formMetaData.gender.nonBinaryName}
+              </Option>
+              <Option value={formMetaData.gender.otherValue}>
+                {formMetaData.gender.otherName}
+              </Option>
             </Select>
           )}
         </Form.Item>
@@ -171,6 +192,6 @@ class AddAudioForm extends React.Component {
   }
 }
 
-const WrappedAddAudioForm = Form.create({ name: "addForm" })(AddAudioForm);
+const WrappedUserInfoForm = Form.create({ name: "addForm" })(UserInfoForm);
 
-export default WrappedAddAudioForm;
+export default WrappedUserInfoForm;

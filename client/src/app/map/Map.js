@@ -9,10 +9,9 @@ import {
 import { SearchBox } from "react-google-maps/lib/components/places/SearchBox";
 import pin from "../../assets/img/pin.png";
 import _ from "lodash";
-import { Modal } from "antd";
-import { Button } from "antd";
 import AudioSubmissionForm from "../audioSubmissionForm/AudioSubmissionForm";
 import SubmissionInfoWindow from "./SubmissionInfoWindow";
+import { words } from "../../common/constants";
 const refs = {};
 
 class Map extends Component {
@@ -60,6 +59,9 @@ class Map extends Component {
 
   onMapClick() {
     if (this.props.addAudio) {
+      for (let word of words) {
+        localStorage.removeItem(word);
+      }
       this.setState({
         visible: true
       });
@@ -73,6 +75,9 @@ class Map extends Component {
   };
 
   handleCancel = () => {
+    for (let word of words) {
+      localStorage.removeItem(word);
+    }
     this.setState({ visible: false });
   };
   render() {
@@ -101,24 +106,16 @@ class Map extends Component {
           lng: this.props.center.lng
         }}
       >
-        <Modal
-          width="50%"
+        <AudioSubmissionForm
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          onClick={this.handleCancel}
           visible={visible}
           title="Add Audio"
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Close
-            </Button>
-          ]}
-        >
-          <AudioSubmissionForm
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-            onClick={this.handleCancel}
-          />
-        </Modal>
+          handleCancel={this.handleCancel}
+        />
         <SearchBox
           ref={this.onSearchBoxMounted}
           bounds={this.state.bounds}

@@ -27,8 +27,12 @@ class Recorder extends Component {
       // Add your handler here.
       console.log(error);
     }
+    console.log(
+      this.props.title + " " + localStorage.getItem(this.props.title)
+    );
+    const persisted = localStorage.getItem(this.props.title) !== null;
 
-    this.setState({ stream });
+    this.setState({ stream, persisted });
   }
 
   startRecord() {
