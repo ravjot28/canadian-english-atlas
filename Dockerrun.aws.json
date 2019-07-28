@@ -13,7 +13,7 @@
       "image": "ravjot28/canadian-english-atlas-api",
       "hostname": "api",
       "essential": false,
-      "memory": 128
+      "memory": 1024
     },
     {
       "name": "router",
