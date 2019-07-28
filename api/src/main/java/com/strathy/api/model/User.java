@@ -28,7 +28,6 @@ public class User {
 
   private String updatedAt;
 
-
   /**
    * Instantiates a new user.
    */
