@@ -5,13 +5,15 @@
       "name": "client",
       "image": "ravjot28/canadian-english-atlas-client",
       "hostname": "client",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "api",
       "image": "ravjot28/canadian-english-atlas-api",
       "hostname": "api",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "router",
@@ -24,7 +26,8 @@
           "containerPort": 80
         }
       ],
-      "links": ["client", "api"]
+      "links": ["client", "api"],
+      "memory": 128
     }
   ]
 }
