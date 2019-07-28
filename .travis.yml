@@ -10,3 +10,17 @@ before_install:
 script:
   - docker run -e CI=true ravjot28/client npm test -- --coverage
   - docker run ravjot28/api mvn test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "canadian-english-atlas"
+  env: "CanadianEnglishAtlas-env"
+  bucket_name: "elasticbeanstalk-us-east-2-476055781841"
+  bucket_path: canadian-english-atlas
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"

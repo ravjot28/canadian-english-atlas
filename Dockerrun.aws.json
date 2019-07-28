@@ -1,0 +1,30 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "ravjot28/canadian-english-atlas-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "api",
+      "image": "ravjot28/canadian-english-atlas-api",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "router",
+      "image": "ravjot28/canadian-english-atlas-router",
+      "hostname": "router",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "api"]
+    }
+  ]
+}
