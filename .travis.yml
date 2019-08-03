@@ -15,7 +15,7 @@ deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
   app: "canadian-english-atlas"
-  env: "CanadianEnglishAtlas-env"
+  env: "CanadianEnglishAtlas-env-1"
   bucket_name: "elasticbeanstalk-us-east-2-476055781841"
   bucket_path: canadian-english-atlas
   on:
